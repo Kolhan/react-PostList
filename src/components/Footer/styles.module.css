@@ -1,0 +1,6 @@
+.footer {
+	width: 100%;
+	background-color: var(--main-panel);
+	padding-top: 12px;
+	padding-bottom: 12px;
+}
