@@ -11,23 +11,47 @@ import { KBreadcrumb } from './components/KBreadcrumb/index.jsx';
 
 export const App = () => {
 
-    const [posts, setPosts] = useState(postData);
+    // Пагинация
+    const countCardOnPage = 12
+    const [pageNum, setPageNum] = useState(1);  
+    
+    // возвращает фильтрованный список по номеру страницы
+    const handlePagination = (pageNum) => {
+        if(pageNum !== '') {
+            const startIndex = ( pageNum-1 ) * countCardOnPage
+            return postData.slice(startIndex, startIndex+countCardOnPage)
+        } else return postData
+    }
 
+    const handleOnChangePagi = (inputValue) => {
+        setPageNum(inputValue)
+        setPosts(handlePagination(inputValue))
+    }
+
+    // Список постов
+    const [posts, setPosts] = useState(handlePagination(pageNum));
+
+    // конопки хедера
     const headerBtn = [
         {title:'Главная'},
         {title:'GitHub', href:'https://github.com/Kolhan'},
     ]
 
+    // кнопки хлебных крошек
     const breadcrumbBtn = [
         {title:'Главная'},
         {title:'Все посты', href:''},
     ]
     
+    // Клик по кнопке создать пост
     const handleClick = (e) => {
         e.preventDefault();
         console.log('Есть контакт');
         alert('Есть контакт');
     }
+
+
+
     
 
     return (
@@ -53,7 +77,15 @@ export const App = () => {
 
                 <PostsList postsData={posts} className="mb-4"/>        
 
-                <div className='row_jc_center'><Pagination defaultCurrent={1} total={50} /></div>      
+                <div className='row_jc_center'>
+                    <Pagination 
+                        defaultCurrent={1} 
+                        current={pageNum} 
+                        onChange={handleOnChangePagi}
+                        total={postData.length} 
+                        defaultPageSize={countCardOnPage}
+                    />
+                </div>      
             </Main>
 
             <Footer>
