@@ -1,0 +1,10 @@
+.likeBtn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.like_active {
+    fill: #FF4444;
+    stroke: #FF4444
+}

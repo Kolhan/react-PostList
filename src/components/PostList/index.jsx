@@ -3,11 +3,11 @@ import { Post } from "../Post";
 import cn from "classnames";
 import s from "./styles.module.css";
 
-export const PostsList = ({postsData, className}) => {
+export const PostsList = ({postsData, className, onPostLike, currentUser}) => {
   return (
     <>
       <div className={cn(s.postList, className)}>
-        {postsData.map(post => <Post key={post._id} {...post}/>)}
+        {postsData && postsData.length>0 && postsData.map(post => <Post key={post._id} {...post} onPostLike={onPostLike} currentUser={currentUser}/>)}
       </div>
     </>
   );

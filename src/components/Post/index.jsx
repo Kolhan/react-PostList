@@ -5,10 +5,11 @@ import { Card, Avatar} from "antd";
 const { Meta } = Card;
 import dayjs from "dayjs";
 import 'dayjs/locale/ru';
+import { LikeButton } from "../LikeButton";
 
 dayjs.locale('ru')
 
-export const Post = ({image, title, author: {avatar, name, email}, text, created_at }) => {
+export const Post = ({onPostLike, currentUser, image, title, author: {avatar, name, email}, text, created_at, likes, tags, _id} ) => {
     const dataFormated = dayjs(created_at).format('dddd, DD MMMM YYYY')
 
     return (
@@ -25,8 +26,11 @@ export const Post = ({image, title, author: {avatar, name, email}, text, created
       >
         
         <h5><b>{title}</b></h5>
-        <p>{text}</p>
-        <div className="row_jc_end row_bottom mb-2"><h5>{dataFormated}</h5></div>
+        <p className="mb-5">{text}</p>
+        <div className="row_jc_between row_bottom mb-3">
+          <LikeButton likeList={likes} userID={currentUser._id} postId={_id} onPostLike={onPostLike}/>
+          <div>{dataFormated}</div>
+        </div>
         
       </Card>
     );
