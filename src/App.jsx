@@ -3,13 +3,35 @@ import { Footer } from './components/Footer/index.jsx';
 import { Header } from './components/Header/index.jsx';
 import { Logo } from './components/Logo/index.jsx';
 import { Main } from './components/Main/index.jsx';
-import { postData } from "./posts.js";
+//import { postData } from "./posts.js";
 
 import { Pagination, Button, Card } from 'antd';
 import { PostsList } from './components/PostList/index.jsx';
 import { KBreadcrumb } from './components/KBreadcrumb/index.jsx';
+import api from './utils/Api.js';
+import { CurrentUser } from './components/CurrentUser/index.jsx';
+// import { userSetter } from 'core-js/fn/symbol';
 
 export const App = () => {
+    //Пользователь
+    const [currentUser, setCurrentUser] = useState({});
+    //Список постов полученный от сервера
+    const [postsData, setPostsData] = useState({})
+    //Отфильтрованный список в том числе и постранично
+    const [filtredPostList, setFiltredPostList] = useState()
+    //let postData = {}
+
+    //Первичная загрузка данных
+    useEffect(() => {
+        Promise.all([api.getUserInfo(), api.getPostList()])
+            .then(([_userData, _postsData]) => {
+                setCurrentUser(_userData)
+                setPostsData(_postsData)
+                console.log(_postsData)
+                //setPosts(handlePagination(pageNum))
+            })
+    }, [])
+
 
     // Пагинация
     const countCardOnPage = 12
@@ -19,8 +41,8 @@ export const App = () => {
     const handlePagination = (pageNum) => {
         if(pageNum !== '') {
             const startIndex = ( pageNum-1 ) * countCardOnPage
-            return postData.slice(startIndex, startIndex+countCardOnPage)
-        } else return postData
+            return postsData.length>0 ? postsData.slice(startIndex, startIndex+countCardOnPage) : postsData
+        } else return postsData
     }
 
     const handleOnChangePagi = (inputValue) => {
@@ -50,7 +72,10 @@ export const App = () => {
         alert('Есть контакт');
     }
 
-
+    function handlePostLike({postId, likeList}) {
+        api.changeLikeStatus(postId, likeList.includes(currentUser._id))
+            .then()
+    }
 
     
 
@@ -60,6 +85,8 @@ export const App = () => {
                 <div className='row_jc_between'>
                     <Logo>Реактивные посты</Logo>
                     <KBreadcrumb separator="  " arrBtn={headerBtn}/>
+                    <CurrentUser user={currentUser}/>
+
                 </div>
             </Header>
 
@@ -75,17 +102,23 @@ export const App = () => {
                     </div>
                 </Card>
 
-                <PostsList postsData={posts} className="mb-4"/>        
+                <PostsList postsData={postsData} className="mb-4" onPostLike={handlePostLike} currentUser={currentUser}/>        
 
-                <div className='row_jc_center'>
-                    <Pagination 
-                        defaultCurrent={1} 
-                        current={pageNum} 
-                        onChange={handleOnChangePagi}
-                        total={postData.length} 
-                        defaultPageSize={countCardOnPage}
-                    />
-                </div>      
+                {/* Пагинатор */}
+                {
+                    posts.length>0 &&
+                    <div className='row_jc_center'>
+                        <div>Всего {postsData.length}</div>
+                        <Pagination 
+                            defaultCurrent={1} 
+                            current={pageNum} 
+                            onChange={handleOnChangePagi}
+                            total={postsData.length} 
+                            defaultPageSize={countCardOnPage}
+                        />
+                    </div> 
+                }
+                     
             </Main>
 
             <Footer>
