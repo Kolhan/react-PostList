@@ -17,14 +17,6 @@ class Api {
         }).then(onResponce)
     }
 
-    // getProductsList(){
-    //     return fetch(`${this._baseUrl}/products`, {
-    //         headers: {
-    //             authorization: this._token,
-    //         },
-    //     }).then(onResponce)
-    // }
-
     getUserInfo(){
         return fetch(`${this._baseUrl}/users/me`, {
             headers: {
@@ -66,7 +58,8 @@ class Api {
 
 const config = {
     baseUrl: 'https://api.react-learning.ru',
-    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjJmOTk5MmFlNWM0MGMxMGMxMWRmZTQiLCJpYXQiOjE2NDcyODY2ODEsImV4cCI6MTY3ODgyMjY4MX0.WHKXAErKZtY445yXecOFZsx981MuXicJti-okSY-tac',
+    // token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjJmOTk5MmFlNWM0MGMxMGMxMWRmZTQiLCJpYXQiOjE2NDcyODY2ODEsImV4cCI6MTY3ODgyMjY4MX0.WHKXAErKZtY445yXecOFZsx981MuXicJti-okSY-tac',
+    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjJiNmZmYzA5YjEyZjgwZjRjMTBiYWUiLCJpYXQiOjE2NDcwMTM4ODUsImV4cCI6MTY3ODU0OTg4NX0.4aJAGCusHFZESpf-Skl4-xmDB9PkFCBjVvUCdsnY004'
 }
 
 const api = new Api(config);

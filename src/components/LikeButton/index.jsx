@@ -5,8 +5,6 @@ import {ReactComponent as LikeIcon} from './img/like.svg'
 import api from "../../utils/Api";
 
 export const LikeButton = ({likeList, userID, postId, onPostLike}) => {
-    console.dir(likeList);
-
     function handleLikeClick() {
       onPostLike({postId, likeList})
     }
