@@ -11,8 +11,6 @@ import { PostsList } from './components/PostList/index.jsx';
 
 import { KBreadcrumb } from './components/KBreadcrumb/index.jsx';
 
-// import { userSetter } from 'core-js/fn/symbol';
-
 export const App = () => {
     //Пользователь
     const [currentUser, setCurrentUser] = useState({});
@@ -72,6 +70,7 @@ export const App = () => {
         alert('Есть контакт');
     }
 
+    // обработчик кнопки лайк
     function handlePostLike({postId, likeList}) {
         api.changeLikeStatus(postId, likeList.includes(currentUser._id))
             .then((newPost) => {
@@ -107,6 +106,7 @@ export const App = () => {
                     </div>
                 </Card>
 
+                {/* Список постов */}
                 <PostsList postsData={postsData} className="mb-4" onPostLike={handlePostLike} currentUser={currentUser}/>
 
                 {/* Пагинатор */}
