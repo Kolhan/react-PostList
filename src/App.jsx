@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Footer } from './components/Footer/index.jsx';
 import { Header } from './components/Header/index.jsx';
-import { Logo } from './components/Logo/index.jsx';
+
 import { Main } from './components/Main/index.jsx';
 //import { postData } from "./posts.js";
 
+import api from './utils/Api.js';
 import { Pagination, Button, Card } from 'antd';
 import { PostsList } from './components/PostList/index.jsx';
+
 import { KBreadcrumb } from './components/KBreadcrumb/index.jsx';
-import api from './utils/Api.js';
-import { CurrentUser } from './components/CurrentUser/index.jsx';
+
 // import { userSetter } from 'core-js/fn/symbol';
 
 export const App = () => {
@@ -27,7 +28,6 @@ export const App = () => {
             .then(([_userData, _postsData]) => {
                 setCurrentUser(_userData)
                 setPostsData(_postsData)
-                console.log(_postsData)
                 //setPosts(handlePagination(pageNum))
             })
     }, [])
@@ -74,21 +74,26 @@ export const App = () => {
 
     function handlePostLike({postId, likeList}) {
         api.changeLikeStatus(postId, likeList.includes(currentUser._id))
-            .then()
+            .then((newPost) => {
+                
+                const newPostsState = postsData.map(p => {
+                    if ( p._id === newPost._id) {
+                        console.log('применён кастыль - оставляем старое поле author -> newPost.author = p.author');
+                        newPost.author = p.author
+                        return newPost 
+                    } else { return p}
+                    // return p._id === newPost._id ? newPost : p
+                })
+
+                setPostsData(newPostsState)
+            })
     }
 
     
 
     return (
         <>
-            <Header>
-                <div className='row_jc_between'>
-                    <Logo>Реактивные посты</Logo>
-                    <KBreadcrumb separator="  " arrBtn={headerBtn}/>
-                    <CurrentUser user={currentUser}/>
-
-                </div>
-            </Header>
+            <Header arrBtn={headerBtn} user={currentUser}/>
 
             <Main>
                 <Card className='mb-4'>
@@ -102,7 +107,7 @@ export const App = () => {
                     </div>
                 </Card>
 
-                <PostsList postsData={postsData} className="mb-4" onPostLike={handlePostLike} currentUser={currentUser}/>        
+                <PostsList postsData={postsData} className="mb-4" onPostLike={handlePostLike} currentUser={currentUser}/>
 
                 {/* Пагинатор */}
                 {
@@ -121,9 +126,7 @@ export const App = () => {
                      
             </Main>
 
-            <Footer>
-                <div className='row_jc_center'>Шатров Константин. 2022</div>
-            </Footer>
+            <Footer/>
         </>
     )
 }
