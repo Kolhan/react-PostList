@@ -1,0 +1,7 @@
+.deletePostBtn {
+    font-size: large;
+}
+
+.deletePostBtn:hover {
+    color: red;
+}

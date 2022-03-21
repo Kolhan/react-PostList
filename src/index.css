@@ -4,6 +4,8 @@
     --main-darker: #FFAA0D;
     --main-lighter:#FFF5C0;
     --main-panel:#ffffff;
+    --screen-m: 750px; 
+    --screen-s: 520px; 
 }
 
 * {
@@ -39,6 +41,12 @@ img {
     display: flex;
     justify-content: flex-end;
     align-items: center;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .row_bottom {

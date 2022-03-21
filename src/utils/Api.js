@@ -9,6 +9,7 @@ class Api {
         this._token = `Bearer ${token}`;
     }
 
+    // получение всех постов
     getPostList() {
         return fetch(`${this._baseUrl}/posts`, {
             headers: {
@@ -17,6 +18,7 @@ class Api {
         }).then(onResponce)
     }
 
+    // получение информации о пользователе по токену в заголовках
     getUserInfo(){
         return fetch(`${this._baseUrl}/users/me`, {
             headers: {
@@ -25,29 +27,20 @@ class Api {
         }).then(onResponce)
     }
 
-    // searchProducts(searchQuery){
-    //     return fetch(`${this._baseUrl}/products/search?query=${searchQuery}`, {
-    //         headers: {
-    //             authorization: this._token,
-    //         },
-    //     }).then(onResponce)
-    // }
-
-    // setUserInfo(userData){
-    //     return fetch(`${this._baseUrl}/users/me`, {
-    //         method: "PATCH",
-    //         headers: {
-    //             authorization: this._token,
-    //             "Content-type": "application/json"
-    //         },
-    //         body: JSON.stringify(userData)
-            
-    //     }).then(onResponce)
-    // }
-
+    // установка и снятие лайка по id
     changeLikeStatus(postId, isLike){
         return fetch(`${this._baseUrl}/posts/likes/${postId}`, {
             method: isLike ? "DELETE" : "PUT",
+            headers: {
+                authorization: this._token,
+            },
+        }).then(onResponce)
+    }
+
+    //удаление поста по id
+    deletePost(postId) {
+        return fetch(`${this._baseUrl}/posts/${postId}`, {
+            method: "DELETE",
             headers: {
                 authorization: this._token,
             },

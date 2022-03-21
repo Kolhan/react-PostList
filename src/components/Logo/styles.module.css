@@ -10,3 +10,23 @@
 .logo img{
     max-width: 32px;
 }
+
+.logo .title {
+    font-size: large;
+}
+
+@media screen and (max-width:750px) {
+    .logo .title {
+        font-size: medium;
+    }
+}
+
+@media screen and (max-width:680px) {
+    .logo {
+        min-width: 40px;
+    }
+
+    .logo .title {
+        display: none;
+    }
+}

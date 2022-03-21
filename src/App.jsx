@@ -6,7 +6,7 @@ import { Main } from './components/Main/index.jsx';
 //import { postData } from "./posts.js";
 
 import api from './utils/Api.js';
-import { Pagination, Button, Card } from 'antd';
+import { Pagination, Button, Card, Spin } from 'antd';
 import { PostsList } from './components/PostList/index.jsx';
 
 import { KBreadcrumb } from './components/KBreadcrumb/index.jsx';
@@ -18,13 +18,18 @@ export const App = () => {
     const [postsData, setPostsData] = useState({})
     // Список постов
     const [posts, setPosts] = useState(postsData);
+    // Список постов
+    const [isLoading, setIsLoading] = useState(false);
 
     //Первичная загрузка данных
     useEffect(() => {
+        setIsLoading(true)
         Promise.all([api.getUserInfo(), api.getPostList()])
             .then(([_userData, _postsData]) => {
                 setCurrentUser(_userData)
                 setPostsData(_postsData)
+            }).finally(() => {
+                setIsLoading(false)
             })
     }, [])
 
@@ -32,16 +37,21 @@ export const App = () => {
     const countCardOnPage = 12
     const [pageNum, setPageNum] = useState(1);  
     useEffect(() => {
+        setIsLoading(true)
         if(pageNum !== '') {
+            
             const startIndex = ( pageNum-1 ) * countCardOnPage
             const newPosts = postsData.length>0 ? postsData.slice(startIndex, startIndex+countCardOnPage) : postsData
             setPosts(newPosts)
         }
+        setIsLoading(false)
+
     }, [postsData, pageNum])
     
     // Обработчик нажатия кнопок пагинации
     const handleOnChangePagi = (inputValue) => {
         setPageNum(inputValue)
+        window.scrollTo(0, 0);
     }
 
 
@@ -95,9 +105,19 @@ export const App = () => {
                     </div>
                 </Card>
 
-                {/* Список постов */}
-                <PostsList postsData={posts} className="mb-4" onPostLike={handlePostLike} currentUser={currentUser}/>
-
+                {
+                    isLoading == true ? 
+                    <>
+                        { /* Прелоадер */ }
+                        <div className='row_jc_center'>
+                            <Spin size="large" />
+                        </div>
+                    </> : <>
+                        { /* Список постов */ }
+                        <PostsList postsData={posts} className="mb-4" onPostLike={handlePostLike} currentUser={currentUser}/>
+                    </>
+                }
+                
                 {/* Пагинатор */}
                 {
                     posts.length>0 &&

@@ -2,7 +2,6 @@ import React from "react";
 import cn from "classnames";
 import s from "./styles.module.css";
 import {ReactComponent as LikeIcon} from './img/like.svg'
-import api from "../../utils/Api";
 
 export const LikeButton = ({likeList, userID, postId, onPostLike}) => {
     function handleLikeClick() {

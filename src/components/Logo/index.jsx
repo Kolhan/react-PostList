@@ -6,7 +6,7 @@ import logo from '../../assets/favicon.svg';
 export const Logo = ({children}) => {
     return (
       <a href="/" className={cn(s.logo)}>
-          <img src={logo} alt="logo"/> <div>{children}</div>
+          <img src={logo} alt="logo"/> <div className={s.title}>{children}</div>
       </a>
     );
   };

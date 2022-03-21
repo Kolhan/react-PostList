@@ -1,16 +1,19 @@
 import React from "react";
 import cn from "classnames";
 import s from "./styles.module.css";
-import { Card, Avatar} from "antd";
+import { Card, Avatar } from "antd";
 const { Meta } = Card;
 import dayjs from "dayjs";
 import 'dayjs/locale/ru';
 import { LikeButton } from "../LikeButton";
+import { DeletePostButton } from "../DeletePostButton";
+
 
 dayjs.locale('ru')
 
 export const Post = ({onPostLike, currentUser, image, title, author: {avatar, name, email}, text, created_at, likes, tags, _id} ) => {
-    const dataFormated = dayjs(created_at).format('dddd, DD MMMM YYYY')
+    //const dataFormated = dayjs(created_at).format('dddd, DD MMMM YYYY') // формат типа 'суббота, 12 марта 2022'
+    const dataFormated = dayjs(created_at).format('DD MMMM YYYY') // формат типа '12 марта 2022'
 
     return (
       <Card 
@@ -23,15 +26,21 @@ export const Post = ({onPostLike, currentUser, image, title, author: {avatar, na
         } 
         hoverable
         cover={<img alt="example" src={image} />}
-      >
+      >         
         
         <h5><b>{title}</b></h5>
         <p className="mb-5">{text}</p>
+
         <div className="row_jc_between row_bottom mb-3">
-          <LikeButton likeList={likes} userID={currentUser._id} postId={_id} onPostLike={onPostLike}/>
+          <div className="row">
+            <LikeButton likeList={likes} userID={currentUser._id} postId={_id} onPostLike={onPostLike}/>
+            <DeletePostButton postId={_id}/>
+          </div>
+          
           <div>{dataFormated}</div>
         </div>
-        
+
+              
       </Card>
     );
   };
