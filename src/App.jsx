@@ -16,9 +16,8 @@ export const App = () => {
     const [currentUser, setCurrentUser] = useState({});
     //Список постов полученный от сервера
     const [postsData, setPostsData] = useState({})
-    //Отфильтрованный список в том числе и постранично
-    const [filtredPostList, setFiltredPostList] = useState()
-    //let postData = {}
+    // Список постов
+    const [posts, setPosts] = useState(postsData);
 
     //Первичная загрузка данных
     useEffect(() => {
@@ -26,30 +25,26 @@ export const App = () => {
             .then(([_userData, _postsData]) => {
                 setCurrentUser(_userData)
                 setPostsData(_postsData)
-                //setPosts(handlePagination(pageNum))
             })
     }, [])
-
 
     // Пагинация
     const countCardOnPage = 12
     const [pageNum, setPageNum] = useState(1);  
-    
-    // возвращает фильтрованный список по номеру страницы
-    const handlePagination = (pageNum) => {
+    useEffect(() => {
         if(pageNum !== '') {
             const startIndex = ( pageNum-1 ) * countCardOnPage
-            return postsData.length>0 ? postsData.slice(startIndex, startIndex+countCardOnPage) : postsData
-        } else return postsData
-    }
-
+            const newPosts = postsData.length>0 ? postsData.slice(startIndex, startIndex+countCardOnPage) : postsData
+            setPosts(newPosts)
+        }
+    }, [postsData, pageNum])
+    
+    // Обработчик нажатия кнопок пагинации
     const handleOnChangePagi = (inputValue) => {
         setPageNum(inputValue)
-        setPosts(handlePagination(inputValue))
     }
 
-    // Список постов
-    const [posts, setPosts] = useState(handlePagination(pageNum));
+
 
     // конопки хедера
     const headerBtn = [
@@ -73,15 +68,9 @@ export const App = () => {
     // обработчик кнопки лайк
     function handlePostLike({postId, likeList}) {
         api.changeLikeStatus(postId, likeList.includes(currentUser._id))
-            .then((newPost) => {
-                
+            .then((newPost) => {                
                 const newPostsState = postsData.map(p => {
-                    if ( p._id === newPost._id) {
-                        console.log('применён кастыль - оставляем старое поле author -> newPost.author = p.author');
-                        newPost.author = p.author
-                        return newPost 
-                    } else { return p}
-                    // return p._id === newPost._id ? newPost : p
+                    return p._id === newPost._id ? newPost : p
                 })
 
                 setPostsData(newPostsState)
@@ -107,21 +96,24 @@ export const App = () => {
                 </Card>
 
                 {/* Список постов */}
-                <PostsList postsData={postsData} className="mb-4" onPostLike={handlePostLike} currentUser={currentUser}/>
+                <PostsList postsData={posts} className="mb-4" onPostLike={handlePostLike} currentUser={currentUser}/>
 
                 {/* Пагинатор */}
                 {
                     posts.length>0 &&
-                    <div className='row_jc_center'>
-                        <div>Всего {postsData.length}</div>
-                        <Pagination 
-                            defaultCurrent={1} 
-                            current={pageNum} 
-                            onChange={handleOnChangePagi}
-                            total={postsData.length} 
-                            defaultPageSize={countCardOnPage}
-                        />
-                    </div> 
+                    <>
+                        <div className='row_jc_center'>
+                            
+                            <Pagination 
+                                defaultCurrent={1} 
+                                current={pageNum} 
+                                onChange={handleOnChangePagi}
+                                total={postsData.length} 
+                                defaultPageSize={countCardOnPage}
+                            />
+                        </div> 
+                        <div className='row_jc_center'>Всего {postsData.length}</div>
+                    </>
                 }
                      
             </Main>
