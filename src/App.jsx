@@ -38,11 +38,16 @@ export const App = () => {
     const [pageNum, setPageNum] = useState(1);  
     useEffect(() => {
         setIsLoading(true)
-        if(pageNum !== '') {
-            
+        if(pageNum !== '') {            
             const startIndex = ( pageNum-1 ) * countCardOnPage
-            const newPosts = postsData.length>0 ? postsData.slice(startIndex, startIndex+countCardOnPage) : postsData
-            setPosts(newPosts)
+
+            if (postsData.length>0) {
+                // сортируем -> сначала новые
+                const sortedList = postsData.slice().sort((a, b) => (a.created_at < b.created_at) ? 1 : ((b.created_at < a.created_at) ? -1 : 0))
+                // делим для погинации
+                const newPosts = sortedList.length>0 ? sortedList.slice(startIndex, startIndex+countCardOnPage) : sortedList
+                setPosts(newPosts)
+            }
         }
         setIsLoading(false)
 
@@ -71,8 +76,15 @@ export const App = () => {
     // Клик по кнопке создать пост
     const handleClick = (e) => {
         e.preventDefault();
-        console.log('Есть контакт');
-        alert('Есть контакт');
+
+        const bodyJSON = {};
+        bodyJSON['title'] = 'Это шапка';
+        bodyJSON['text'] = 'Здесь будет текст';
+        bodyJSON['image'] = "http://dummyimage.com/400x200.png/5fa2dd/ffffff"
+        
+        api.createPost(bodyJSON).then(newElement =>{
+            setPostsData(oldArray => [...postsData, newElement])            
+        })
     }
 
     // обработчик кнопки лайк
@@ -85,6 +97,30 @@ export const App = () => {
 
                 setPostsData(newPostsState)
             })
+    }
+
+    // обработчик кнопки удалить пост
+    function handleDeletePost({postId}) {
+        let isDelete = confirm("Действительно хочешь удалить пост?");
+
+        if (isDelete) {
+            api.deletePost(postId)
+            .then((deletedPost) => {                 
+                let oldPostList = postsData.slice()               
+                oldPostList.forEach(function(item, index, array) {
+                    // если нашли удаляем
+                    if (item._id === deletedPost._id) {
+                        oldPostList.splice(index,1)
+                        return
+                    }
+                });
+
+                setPostsData(oldPostList)
+            })
+            .catch((e) => {
+                if  (e.includes('403') ) alert('Нельзя удалять чужую запись');
+            })
+        }
     }
 
     
@@ -109,12 +145,10 @@ export const App = () => {
                     isLoading == true ? 
                     <>
                         { /* Прелоадер */ }
-                        <div className='row_jc_center'>
-                            <Spin size="large" />
-                        </div>
+                        <div className='row_jc_center'><Spin size="large" /></div>
                     </> : <>
                         { /* Список постов */ }
-                        <PostsList postsData={posts} className="mb-4" onPostLike={handlePostLike} currentUser={currentUser}/>
+                        <PostsList postsData={posts} className="mb-4" onPostLike={handlePostLike} currentUser={currentUser} onDeletePost={handleDeletePost}/>
                     </>
                 }
                 

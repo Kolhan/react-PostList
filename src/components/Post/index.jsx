@@ -11,7 +11,7 @@ import { DeletePostButton } from "../DeletePostButton";
 
 dayjs.locale('ru')
 
-export const Post = ({onPostLike, currentUser, image, title, author: {avatar, name, email}, text, created_at, likes, tags, _id} ) => {
+export const Post = ({onPostLike, onDeletePost, currentUser, image, title, author, text, created_at, likes, tags, _id} ) => {
     //const dataFormated = dayjs(created_at).format('dddd, DD MMMM YYYY') // формат типа 'суббота, 12 марта 2022'
     const dataFormated = dayjs(created_at).format('DD MMMM YYYY') // формат типа '12 марта 2022'
 
@@ -19,9 +19,9 @@ export const Post = ({onPostLike, currentUser, image, title, author: {avatar, na
       <Card 
         title={
           <Meta
-            avatar={<Avatar src={avatar} />}
-            title={name}
-            description={email}
+            avatar={<Avatar src={author.avatar} />}
+            title={author.name}
+            description={author.email}
           />     
         } 
         hoverable
@@ -34,7 +34,7 @@ export const Post = ({onPostLike, currentUser, image, title, author: {avatar, na
         <div className="row_jc_between row_bottom mb-3">
           <div className="row">
             <LikeButton likeList={likes} userID={currentUser._id} postId={_id} onPostLike={onPostLike}/>
-            <DeletePostButton postId={_id}/>
+            {currentUser._id==author._id ? <DeletePostButton postId={_id} onDeletePost={onDeletePost}/> : <></> }
           </div>
           
           <div>{dataFormated}</div>

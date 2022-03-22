@@ -37,7 +37,7 @@ class Api {
         }).then(onResponce)
     }
 
-    //удаление поста по id
+    // удаление поста по id
     deletePost(postId) {
         return fetch(`${this._baseUrl}/posts/${postId}`, {
             method: "DELETE",
@@ -46,7 +46,19 @@ class Api {
             },
         }).then(onResponce)
     }
-    
+
+    // создание поста
+    createPost(bodyData) {
+        return fetch(`${this._baseUrl}/posts`, {
+            method: "POST",
+            headers: {
+                authorization: this._token,
+                "Content-type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify(bodyData)
+        }).then(onResponce)
+    }   
 }
 
 const config = {

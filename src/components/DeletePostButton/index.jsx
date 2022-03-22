@@ -6,14 +6,14 @@ import api from "../../utils/Api";
 
 export const DeletePostButton = ({postId, onDeletePost}) => {
     function handleDeleteClick() {
-      //onDeletePost({postId})
-      let isDelete = confirm("Действительно хочешь удалить пост?");
+      onDeletePost({postId})
+      // let isDelete = confirm("Действительно хочешь удалить пост?");
 
-      if (isDelete) {
-        api.deletePost(postId).catch((e) => {
-          if  (e.includes('403') ) alert('Нельзя удалять чужую запись');
-        })
-      }
+      // if (isDelete) {
+      //   api.deletePost(postId).catch((e) => {
+      //     if  (e.includes('403') ) alert('Нельзя удалять чужую запись');
+      //   })
+      // }
     }
 
     return (
