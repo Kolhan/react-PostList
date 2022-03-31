@@ -11,6 +11,8 @@ import { Route, Routes } from 'react-router-dom';
 import { PostPage } from './pages/PostPage/PostPage.jsx';
 import { NotFoundPage } from './pages/NotFoundPage/NotFoundPage.jsx';
 import { CurrentUserContext } from "./context/currentUserContext";
+import { Modal } from 'antd';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 
 export const App = () => {
@@ -72,29 +74,41 @@ export const App = () => {
     }
 
     // обработчик кнопки удалить пост
+    const { confirm } = Modal;
     function handleDeletePost({postId}) {
-        let isDelete = confirm("Действительно хочешь удалить пост?");
+        //showDeleteConfirm(postId)
+        api.deletePost(postId)
+        .then((deletedPost) => {                 
+            let oldPostList = postsData.slice()               
+            oldPostList.forEach(function(item, index, array) {
+                // если нашли удаляем
+                if (item._id === deletedPost._id) {
+                    oldPostList.splice(index,1)
+                    return
+                }
+            });
 
-        if (isDelete) {
-            api.deletePost(postId)
-            .then((deletedPost) => {                 
-                let oldPostList = postsData.slice()               
-                oldPostList.forEach(function(item, index, array) {
-                    // если нашли удаляем
-                    if (item._id === deletedPost._id) {
-                        oldPostList.splice(index,1)
-                        return
-                    }
-                });
-
-                setPostsData(oldPostList)
-            })
-            .catch((e) => {
-                if  (e.includes('403') ) alert('Нельзя удалять чужую запись');
-            })
-        }
+            setPostsData(oldPostList)
+        })
+        .catch((e) => {
+            if  (e.includes('403') ) alert('Нельзя удалять чужую запись');
+        })
     }
 
+    // форма подтверждения удаления
+    function showDeleteConfirm(postId) {
+        confirm({
+          title: 'Действительно хочешь удалить пост?',
+          icon: <ExclamationCircleOutlined />,
+          okText: 'Да',
+          okType: 'danger',
+          cancelText: 'Нет',
+          onOk: () => handleDeletePost(postId),
+          onCancel() {
+            console.log('Cancel');
+          },
+        });
+    }
     
 
     return (
@@ -109,7 +123,7 @@ export const App = () => {
                                 isLoading={isLoading}
                                 postsData={postsData}
                                 handlePostLike={handlePostLike}
-                                handleDeletePost={handleDeletePost} 
+                                handleDeletePost={showDeleteConfirm} 
                                 handleCreateNewPost={handleCreateNewPost} 
                                 breadcrumbBtn={breadcrumbBtn}
                                 setIsLoading={setIsLoading}
