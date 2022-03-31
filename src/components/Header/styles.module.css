@@ -2,4 +2,5 @@
     width: 100%;
     background-color: var(--main-panel);
     padding: 12px 0;
+    min-height: 68px;
 }

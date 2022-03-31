@@ -7,7 +7,8 @@
 }
 
 .likeBtn:hover {
-    stroke: #FF4444
+    stroke: #FF4444;
+    cursor: pointer;
 }
 
 .like_active {

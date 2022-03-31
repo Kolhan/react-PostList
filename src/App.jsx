@@ -6,19 +6,19 @@ import { Main } from './components/Main/index.jsx';
 //import { postData } from "./posts.js";
 
 import api from './utils/Api.js';
-import { Pagination, Button, Card, Spin } from 'antd';
-import { PostsList } from './components/PostList/index.jsx';
+import { PostListPage } from "./pages/PostListPage/PostListPage"
+import { Route, Routes } from 'react-router-dom';
+import { PostPage } from './pages/PostPage/PostPage.jsx';
+import { NotFoundPage } from './pages/NotFoundPage/NotFoundPage.jsx';
+import { CurrentUserContext } from "./context/currentUserContext";
 
-import { KBreadcrumb } from './components/KBreadcrumb/index.jsx';
 
 export const App = () => {
-    //Пользователь
+    // Пользователь
     const [currentUser, setCurrentUser] = useState({});
-    //Список постов полученный от сервера
+    // Список постов полученный от сервера
     const [postsData, setPostsData] = useState({})
-    // Список постов
-    const [posts, setPosts] = useState(postsData);
-    // Список постов
+    // Состояние загрузки
     const [isLoading, setIsLoading] = useState(false);
 
     //Первичная загрузка данных
@@ -32,38 +32,10 @@ export const App = () => {
                 setIsLoading(false)
             })
     }, [])
-
-    // Пагинация
-    const countCardOnPage = 12
-    const [pageNum, setPageNum] = useState(1);  
-    useEffect(() => {
-        setIsLoading(true)
-        if(pageNum !== '') {            
-            const startIndex = ( pageNum-1 ) * countCardOnPage
-
-            if (postsData.length>0) {
-                // сортируем -> сначала новые
-                const sortedList = postsData.slice().sort((a, b) => (a.created_at < b.created_at) ? 1 : ((b.created_at < a.created_at) ? -1 : 0))
-                // делим для погинации
-                const newPosts = sortedList.length>0 ? sortedList.slice(startIndex, startIndex+countCardOnPage) : sortedList
-                setPosts(newPosts)
-            }
-        }
-        setIsLoading(false)
-
-    }, [postsData, pageNum])
-    
-    // Обработчик нажатия кнопок пагинации
-    const handleOnChangePagi = (inputValue) => {
-        setPageNum(inputValue)
-        window.scrollTo(0, 0);
-    }
-
-
-
+ 
     // конопки хедера
     const headerBtn = [
-        {title:'Главная'},
+        // {title:'Главная'},
         {title:'GitHub', href:'https://github.com/Kolhan'},
     ]
 
@@ -74,7 +46,7 @@ export const App = () => {
     ]
     
     // Клик по кнопке создать пост
-    const handleClick = (e) => {
+    const handleCreateNewPost = (e) => {
         e.preventDefault();
 
         const bodyJSON = {};
@@ -127,52 +99,35 @@ export const App = () => {
 
     return (
         <>
-            <Header arrBtn={headerBtn} user={currentUser}/>
+            <CurrentUserContext.Provider value={currentUser}>
+                <Header arrBtn={headerBtn}/>
 
-            <Main>
-                <Card className='mb-4'>
-                    <KBreadcrumb arrBtn={breadcrumbBtn} className="mb-3"/>
+                <Main>
+                    <Routes>
+                        <Route path='/' element = {
+                            <PostListPage 
+                                isLoading={isLoading}
+                                postsData={postsData}
+                                handlePostLike={handlePostLike}
+                                handleDeletePost={handleDeletePost} 
+                                handleCreateNewPost={handleCreateNewPost} 
+                                breadcrumbBtn={breadcrumbBtn}
+                                setIsLoading={setIsLoading}
+                            /> 
+                        }/>
+                        <Route path='/post/:postId' element = {
+                            <PostPage/> 
+                        }/>
 
-                    <h1> Добро пожаловать на мою страничку</h1>
-
-                    <div className='row_jc_between'>
-                        Здесь вы можете реактивно развлекаться
-                        <Button type="primary" onClick={handleClick}>Создать пост</Button>
-                    </div>
-                </Card>
-
-                {
-                    isLoading == true ? 
-                    <>
-                        { /* Прелоадер */ }
-                        <div className='row_jc_center'><Spin size="large" /></div>
-                    </> : <>
-                        { /* Список постов */ }
-                        <PostsList postsData={posts} className="mb-4" onPostLike={handlePostLike} currentUser={currentUser} onDeletePost={handleDeletePost}/>
-                    </>
-                }
-                
-                {/* Пагинатор */}
-                {
-                    posts.length>0 &&
-                    <>
-                        <div className='row_jc_center'>
-                            
-                            <Pagination 
-                                defaultCurrent={1} 
-                                current={pageNum} 
-                                onChange={handleOnChangePagi}
-                                total={postsData.length} 
-                                defaultPageSize={countCardOnPage}
-                            />
-                        </div> 
-                        <div className='row_jc_center'>Всего {postsData.length}</div>
-                    </>
-                }
-                     
-            </Main>
+                        <Route path='*' element = {
+                            <NotFoundPage/> 
+                        }/>
+                    </Routes>
+                                                
+                </Main>
 
             <Footer/>
+            </CurrentUserContext.Provider>
         </>
     )
 }

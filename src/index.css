@@ -8,17 +8,24 @@
     --screen-s: 520px; 
 }
 
+#root {
+	min-height: 100%;
+    display: grid;
+    grid-template-rows: minmax(50px, max-content) 10fr minmax(10px, max-content);
+}
+
 * {
     box-sizing: inherit;
 }
 
 html {
     box-sizing: border-box;
+    height: 100%;
 }
 
 body {
 	font-family: "Nunito", "Arial", "Helvetica", sans-serif;
-    
+    height: 100%;
 }
 
 img {
@@ -73,5 +80,41 @@ img {
 
 .mb-5 {
     margin-bottom: 25px;
+}
+
+.card-white {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    color: rgba(0, 0, 0, 0.85);
+    font-size: 14px;
+    font-variant: tabular-nums;
+    line-height: 1.5715;
+    list-style: none;
+    font-feature-settings: 'tnum';
+    position: relative;
+    background: #fff;
+    border-radius: 2px;
+    display: grid;
+    grid-template-rows: minmax(0px, max-content) 10fr minmax(0px, max-content);
+    grid-template-columns: minmax(50px, max-content);
+}
+
+.card-header {
+    padding: 24px 24px 10px 24px;
+    overflow: hidden;
+    box-sizing: content-box;
+}
+
+.card-footer {
+    padding: 0px 24px 24px 24px;
+}
+
+.card-body {
+    padding: 0px 24px;
+}
+
+.curPointer {
+    cursor: pointer;
 }
 

@@ -1,0 +1,18 @@
+.postAuthor__row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.postAuthor__avatar {
+    min-width: 32px;
+    max-width: 32px;
+    margin-top: 5px;
+}
+
+.postAuthor__subTitle {
+    color: darkgray;
+    font-size: small;
+}

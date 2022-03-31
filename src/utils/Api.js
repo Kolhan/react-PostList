@@ -47,6 +47,16 @@ class Api {
         }).then(onResponce)
     }
 
+    // получить информацию по посту
+    getPost(postId) {
+        return fetch(`${this._baseUrl}/posts/${postId}`, {
+            method: "GET",
+            headers: {
+                authorization: this._token,
+            },
+        }).then(onResponce)
+    }
+
     // создание поста
     createPost(bodyData) {
         return fetch(`${this._baseUrl}/posts`, {
