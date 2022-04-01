@@ -38,7 +38,7 @@ export const App = () => {
     // конопки хедера
     const headerBtn = [
         // {title:'Главная'},
-        {title:'GitHub', href:'https://github.com/Kolhan'},
+        {title:'GitHub', href:'kolhan.github.io/react-postlist/dist/'},
     ]
 
     // кнопки хлебных крошек
