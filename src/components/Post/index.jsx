@@ -9,11 +9,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { PostAuthor } from "../PostAuthor";
 import { Tag } from "antd";
 import { CurrentUserContext } from './../../context/currentUserContext';
+import { CommentOutlined } from "@ant-design/icons";
 
 
 dayjs.locale('ru')
 
-export const Post = ({ onPostLike, onDeletePost, image, title, author, text, created_at, likes, tags, _id }) => {
+export const Post = ({ onPostLike, onDeletePost, image, title, author, text, created_at, likes, tags, _id, comments }) => {
   //const dataFormated = dayjs(created_at).format('dddd, DD MMMM YYYY') // формат типа 'суббота, 12 марта 2022'
   const dataFormated = dayjs(created_at).format('DD MMMM YYYY') // формат типа '12 марта 2022'
   const navigate = useNavigate();
@@ -43,6 +44,7 @@ export const Post = ({ onPostLike, onDeletePost, image, title, author, text, cre
           <div className="row">
             <LikeButton likeList={likes} postId={_id} onPostLike={onPostLike} />
             {user._id == author._id ? <DeletePostButton postId={_id} onDeletePost={onDeletePost} /> : <></>}
+            {comments?.length>0 && <div><CommentOutlined />{comments.length}</div>}
           </div>
 
           <div>{dataFormated}</div>

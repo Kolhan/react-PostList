@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 
-import { Pagination, Button, Card, Spin } from 'antd';
+import { Pagination, Button, Card, Spin, Modal } from 'antd';
 import { PostsList } from '../../components/PostList/index.jsx';
 
 import { KBreadcrumb } from '../../components/KBreadcrumb/index.jsx';
+import { PostEditForm } from '../../components/PostEditForm/PostEditForm.jsx';
 
 export const PostListPage = ({isLoading, postsData, handlePostLike, handleDeletePost, handleCreateNewPost, breadcrumbBtn, setIsLoading}) => {
     // Список постов
     const [posts, setPosts] = useState(postsData);
+    const [editPostFormVisible, setEditPostFormVisible] = useState(false)
 
     // Пагинация
     const countCardOnPage = 12
@@ -35,6 +37,21 @@ export const PostListPage = ({isLoading, postsData, handlePostLike, handleDelete
         window.scrollTo(0, 0);
     }
 
+    // Модальное окно создания поста
+    const showModal = () => {
+        setEditPostFormVisible(true)
+    };
+    
+    const hideModal = () => {
+        setEditPostFormVisible(false)
+    };
+
+    function onOk(newPost) {
+        console.log(newPost);
+        hideModal();
+        handleCreateNewPost(newPost)
+    }
+
     return (
         <>
                 <Card className='mb-4'>
@@ -44,10 +61,12 @@ export const PostListPage = ({isLoading, postsData, handlePostLike, handleDelete
 
                     <div className='row_jc_between'>
                         Здесь вы можете реактивно развлекаться
-                        <Button type="primary" onClick={handleCreateNewPost}>Создать пост</Button>
+                        <Button type="primary" onClick={showModal}>Создать пост</Button>
                     </div>
                 </Card>
 
+                {/* Модальное окно создания поста */}
+                <PostEditForm isVisible={editPostFormVisible} onOk={onOk} onCancel={hideModal}/>
 
                 { /* Прелоадер */ }
                 {
@@ -59,8 +78,7 @@ export const PostListPage = ({isLoading, postsData, handlePostLike, handleDelete
 
                 { /* Список постов */ }
                 {
-                    isLoading == false && <>
-                        
+                    isLoading == false && <>                        
                         <PostsList postsData={posts} className="mb-4" onPostLike={handlePostLike} onDeletePost={handleDeletePost}/>
                     </>
                 }

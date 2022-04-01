@@ -10,11 +10,6 @@ import cn from 'classnames';
 import { LikeButton } from '../../components/LikeButton';
 import { CurrentUserContext } from './../../context/currentUserContext';
 
-// import { Pagination, Button, Card, Spin } from 'antd';
-// import { PostsList } from '../../components/PostList/index.jsx';
-
-// import { KBreadcrumb } from '../../components/KBreadcrumb/index.jsx';
-
 export const PostPage = ({}) => {
     const params = useParams();
     const [post, setPost] = useState({}) 
@@ -23,13 +18,12 @@ export const PostPage = ({}) => {
 
     //Первичная загрузка данных
     useEffect(() => {
-        // setIsLoading(true)
         api.getPost(params.postId)
             .then((_postData) => {
                 _postData.created_at = dayjs(_postData.created_at).format('DD MMMM YYYY') // формат типа '12 марта 2022'
                 setPost(_postData)
+                console.log(_postData);
             }).finally(() => {
-                // setIsLoading(false)
             })
     }, [])
 
@@ -41,9 +35,6 @@ export const PostPage = ({}) => {
     function handlePostLike({postId, likeList}) {
         api.changeLikeStatus(postId, likeList.includes(user._id))
             .then((newPost) => {                
-                // const newPostsState = postsData.map(p => {
-                //     return p._id === newPost._id ? newPost : p
-                // })
                 newPost.created_at = dayjs(newPost.created_at).format('DD MMMM YYYY') // формат типа '12 марта 2022'
                 setPost(newPost)
             })

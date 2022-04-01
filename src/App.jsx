@@ -48,13 +48,13 @@ export const App = () => {
     ]
     
     // Клик по кнопке создать пост
-    const handleCreateNewPost = (e) => {
-        e.preventDefault();
-
+    const handleCreateNewPost = (newPostData) => {
+        
         const bodyJSON = {};
-        bodyJSON['title'] = 'Это шапка';
+        bodyJSON['title'] = newPostData.title;
         bodyJSON['text'] = 'Здесь будет текст';
         bodyJSON['image'] = "http://dummyimage.com/400x200.png/5fa2dd/ffffff"
+        bodyJSON['tags'] = ['tag1','tag2']
         
         api.createPost(bodyJSON).then(newElement =>{
             setPostsData(oldArray => [...postsData, newElement])            
