@@ -38,7 +38,7 @@ export const App = () => {
     // конопки хедера
     const headerBtn = [
         // {title:'Главная'},
-        {title:'GitHub', href:'kolhan.github.io/react-postlist/dist/'},
+        {title:'GitHub', href:'https://github.com/Kolhan/react-PostList'},
     ]
 
     // кнопки хлебных крошек
@@ -52,9 +52,9 @@ export const App = () => {
         
         const bodyJSON = {};
         bodyJSON['title'] = newPostData.title;
-        bodyJSON['text'] = 'Здесь будет текст';
-        bodyJSON['image'] = "http://dummyimage.com/400x200.png/5fa2dd/ffffff"
-        bodyJSON['tags'] = ['tag1','tag2']
+        bodyJSON['text'] = newPostData.text;
+        bodyJSON['image'] = newPostData.image
+        bodyJSON['tags'] = newPostData.tags.split(',')
         
         api.createPost(bodyJSON).then(newElement =>{
             setPostsData(oldArray => [...postsData, newElement])            
