@@ -4,8 +4,9 @@ import TextArea from "antd/lib/input/TextArea";
 import { useForm } from "react-hook-form";
 import s from "./styles.module.css";
 import { Modal } from "antd";
+import api from './../../utils/Api';
 
-export function PostEditForm({isVisible, setVisible, onOk, onCancel}) {
+export function PostEditForm({isVisible, setVisible, onOk, onCancel, resetForm}) {
     const {register, handleSubmit, formState: {errors} } = useForm();
     const [newPost, setNewPost] = useState({
         title: '',
@@ -18,12 +19,37 @@ export function PostEditForm({isVisible, setVisible, onOk, onCancel}) {
         console.log(data);
     }
 
+    //обработчик кнопки создать
     function handleClick () {
-        onOk(newPost)
+        const bodyJSON = {};
+        bodyJSON['title'] = newPost.title;
+        bodyJSON['text'] = newPost.text;
+        bodyJSON['image'] = newPost.image
+        bodyJSON['tags'] = newPost.tags.split(',')
+
+        api.createPost(bodyJSON)
+            .then(newElement =>{
+                resetForm()
+                onOk(newElement)
+            })
+            .catch(errorData => {
+                alert(errorData)
+            })
     }
 
+    //сохраняем данные в переменную
     function handleOnChangeInput (event) {
         setNewPost({...newPost, [event.target.name]:event.target.value})
+    }
+
+    //очищаем форму
+    function resetForm() {
+        setNewPost({
+            title: '',
+            text: '',
+            image: '',
+            tags: ''
+        })
     }
 
     return (

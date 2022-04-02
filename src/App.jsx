@@ -48,23 +48,14 @@ export const App = () => {
     ]
     
     // Клик по кнопке создать пост
-    const handleCreateNewPost = (newPostData) => {
-        
-        const bodyJSON = {};
-        bodyJSON['title'] = newPostData.title;
-        bodyJSON['text'] = newPostData.text;
-        bodyJSON['image'] = newPostData.image
-        bodyJSON['tags'] = newPostData.tags.split(',')
-        
-        api.createPost(bodyJSON).then(newElement =>{
-            setPostsData(oldArray => [...postsData, newElement])            
-        })
+    const handleCreateNewPost = (newElement) => {
+        setPostsData(oldArray => [...postsData, newElement])
     }
 
     // обработчик кнопки лайк
     function handlePostLike({postId, likeList}) {
         api.changeLikeStatus(postId, likeList.includes(currentUser._id))
-            .then((newPost) => {                
+            .then((newPost) => {
                 const newPostsState = postsData.map(p => {
                     return p._id === newPost._id ? newPost : p
                 })
@@ -78,8 +69,8 @@ export const App = () => {
     function handleDeletePost({postId}) {
         //showDeleteConfirm(postId)
         api.deletePost(postId)
-        .then((deletedPost) => {                 
-            let oldPostList = postsData.slice()               
+        .then((deletedPost) => {
+            let oldPostList = postsData.slice()
             oldPostList.forEach(function(item, index, array) {
                 // если нашли удаляем
                 if (item._id === deletedPost._id) {

@@ -47,7 +47,6 @@ export const PostListPage = ({isLoading, postsData, handlePostLike, handleDelete
     };
 
     function onOk(newPost) {
-        console.log(newPost);
         hideModal();
         handleCreateNewPost(newPost)
     }
