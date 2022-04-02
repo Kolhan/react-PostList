@@ -6,8 +6,11 @@ import s from "./styles.module.css";
 import { Modal } from "antd";
 import api from './../../utils/Api';
 
-export function PostEditForm({isVisible, onOk, onCancel, newPost, setNewPost, resetForm}) {
-    const {register, handleSubmit, formState: {errors} } = useForm();
+export function PostEditForm({isVisible, onOk, onCancel, newPost, setNewPost}) {
+    const {register, handleSubmit, reset, formState: {errors} } = useForm({
+        mode: 'onSubmit',
+        reValidateMode: 'onBlur',
+      });
     const formNewPost = useRef()
 
     function onSubmit(data) {
@@ -16,12 +19,7 @@ export function PostEditForm({isVisible, onOk, onCancel, newPost, setNewPost, re
 
     //обработчик кнопки создать
     function handleClick () {
-        
-        //хочу вызвать submit формы но пока не знаю как.  чтобы сработали валидаторы
-        // console.log(formNewPost);
-        // formNewPost.dispatchEvent(
-        //     new Event("submit", { bubbles: true, cancelable: true })
-        // )
+        //handleSubmit()
 
         const bodyJSON = {};
         bodyJSON['title'] = newPost.title;
@@ -31,7 +29,7 @@ export function PostEditForm({isVisible, onOk, onCancel, newPost, setNewPost, re
 
         api.createPost(bodyJSON)
             .then(newElement =>{
-                resetForm()
+                reset()
                 onOk(newElement)
             })
             .catch(errorData => {
@@ -85,7 +83,6 @@ export function PostEditForm({isVisible, onOk, onCancel, newPost, setNewPost, re
                     <Input placeholder='введите тэги через запятую' className="mb-2" type="text" value={newPost.tags} onInput={handleOnChangeInput}
                         {...register('tags')}  
                     />
-                    <button type="submit">создать</button>
                 </form>
         </Modal>
 

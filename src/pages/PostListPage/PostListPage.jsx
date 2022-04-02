@@ -60,16 +60,6 @@ export const PostListPage = ({isLoading, postsData, handlePostLike, handleDelete
         handleCreateNewPost(newPost)
     }
 
-    // Очищаем форму
-    function resetForm() {
-        setNewPost({
-            title: '',
-            text: '',
-            image: '',
-            tags: ''
-        })
-    }
-
     return (
         <>
                 <Card className='mb-4'>
@@ -86,7 +76,7 @@ export const PostListPage = ({isLoading, postsData, handlePostLike, handleDelete
                 </Card>
 
                 {/* Модальное окно создания поста */}
-                <PostEditForm isVisible={editPostFormVisible} onOk={onOk} onCancel={hideModal} newPost={newPost} setNewPost={setNewPost} resetForm={resetForm}/>
+                <PostEditForm isVisible={editPostFormVisible} onOk={onOk} onCancel={hideModal} newPost={newPost} setNewPost={setNewPost}/>
 
                 { /* Прелоадер */ }
                 {
