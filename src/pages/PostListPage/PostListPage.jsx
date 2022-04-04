@@ -115,6 +115,7 @@ export const PostListPage = ({isLoading, postsData, handlePostLike, handleDelete
                                 onChange={handleOnChangePagi}
                                 total={postsData.length} 
                                 defaultPageSize={countCardOnPage}
+                                showSizeChanger={false}
                             />
                         </div> 
                         <div className='row_jc_center'>Всего {postsData.length}</div>
