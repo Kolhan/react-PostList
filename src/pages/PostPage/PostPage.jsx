@@ -9,12 +9,14 @@ import s from "./styles.module.css";
 import cn from 'classnames';
 import { LikeButton } from '../../components/LikeButton';
 import { CurrentUserContext } from './../../context/currentUserContext';
+import { PostListContext } from './../../context/postListContext';
 
 export const PostPage = ({}) => {
     const params = useParams();
     const [post, setPost] = useState({}) 
     const navigate = useNavigate()
     const user = useContext(CurrentUserContext)
+    const replacePost = useContext(PostListContext)
 
     //Первичная загрузка данных
     useEffect(() => {
@@ -34,7 +36,8 @@ export const PostPage = ({}) => {
     // обработчик кнопки лайк
     function handlePostLike({postId, likeList}) {
         api.changeLikeStatus(postId, likeList.includes(user._id))
-            .then((newPost) => {                
+            .then((newPost) => {
+                replacePost({...newPost})                
                 newPost.created_at = dayjs(newPost.created_at).format('DD MMMM YYYY') // формат типа '12 марта 2022'
                 setPost(newPost)
             })

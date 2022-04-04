@@ -11,6 +11,7 @@ import { Route, Routes } from 'react-router-dom';
 import { PostPage } from './pages/PostPage/PostPage.jsx';
 import { NotFoundPage } from './pages/NotFoundPage/NotFoundPage.jsx';
 import { CurrentUserContext } from "./context/currentUserContext";
+import { PostListContext } from './context/postListContext';
 import { Modal } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 
@@ -56,12 +57,17 @@ export const App = () => {
     function handlePostLike({postId, likeList}) {
         api.changeLikeStatus(postId, likeList.includes(currentUser._id))
             .then((newPost) => {
-                const newPostsState = postsData.map(p => {
-                    return p._id === newPost._id ? newPost : p
-                })
-
-                setPostsData(newPostsState)
+                replacePost(newPost)
             })
+    }
+
+    //Заменяет новым постом в списке постов
+    function replacePost(newPost) {
+        const newPostsState = postsData.map(p => {
+            return p._id === newPost._id ? newPost : p
+        })
+
+        setPostsData(newPostsState)
     }
 
     // обработчик кнопки удалить пост
@@ -104,6 +110,7 @@ export const App = () => {
 
     return (
         <>
+            <PostListContext.Provider value={replacePost}>
             <CurrentUserContext.Provider value={currentUser}>
                 <Header arrBtn={headerBtn}/>
 
@@ -133,6 +140,7 @@ export const App = () => {
 
             <Footer/>
             </CurrentUserContext.Provider>
+            </PostListContext.Provider>
         </>
     )
 }
