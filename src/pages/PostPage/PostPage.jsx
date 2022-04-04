@@ -15,8 +15,8 @@ export const PostPage = ({}) => {
     const params = useParams();
     const [post, setPost] = useState({}) 
     const navigate = useNavigate()
-    const user = useContext(CurrentUserContext)
-    const replacePost = useContext(PostListContext)
+    const {user} = useContext(CurrentUserContext)
+    const {replacePost} = useContext(PostListContext)
 
     //Первичная загрузка данных
     useEffect(() => {

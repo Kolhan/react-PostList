@@ -18,7 +18,7 @@ export const Post = ({ onPostLike, onDeletePost, image, title, author, text, cre
   //const dataFormated = dayjs(created_at).format('dddd, DD MMMM YYYY') // формат типа 'суббота, 12 марта 2022'
   const dataFormated = dayjs(created_at).format('DD MMMM YYYY') // формат типа '12 марта 2022'
   const navigate = useNavigate();
-  const user = useContext(CurrentUserContext)
+  const {user} = useContext(CurrentUserContext)
 
   return (
 

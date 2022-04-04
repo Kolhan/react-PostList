@@ -35,6 +35,8 @@ export const App = () => {
                 setIsLoading(false)
             })
     }, [])
+
+
  
     // конопки хедера
     const headerBtn = [
@@ -68,6 +70,17 @@ export const App = () => {
         })
 
         setPostsData(newPostsState)
+    }
+
+    function getPostList() {
+        setIsLoading(true)
+        api.getPostList()
+            .then((_postsData) => {
+                setPostsData(_postsData)
+            })
+            .finally(() => {
+                setIsLoading(false)
+            })
     }
 
     // обработчик кнопки удалить пост
@@ -110,8 +123,8 @@ export const App = () => {
 
     return (
         <>
-            <PostListContext.Provider value={replacePost}>
-            <CurrentUserContext.Provider value={currentUser}>
+            <PostListContext.Provider value={{replacePost, getPostList}}>
+            <CurrentUserContext.Provider value={{user: currentUser, setUser: setCurrentUser}}>
                 <Header arrBtn={headerBtn}/>
 
                 <Main>

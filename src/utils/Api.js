@@ -27,6 +27,31 @@ class Api {
         }).then(onResponce)
     }
 
+
+    // изменение name и about
+    setUserInfo(bodyData) {
+        return fetch(`${this._baseUrl}/users/me`, {
+            method: "PATCH",
+            headers: {
+                authorization: this._token,
+                "Content-type": "application/json",
+            },
+            body: JSON.stringify(bodyData)
+        }).then(onResponce)
+    }
+
+    // изменение avatar 
+    setUserAvatar(bodyData) {
+        return fetch(`${this._baseUrl}/users/me/avatar`, {
+            method: "PATCH",
+            headers: {
+                authorization: this._token,
+                "Content-type": "application/json",
+            },
+            body: JSON.stringify(bodyData)
+        }).then(onResponce)
+    }
+
     // установка и снятие лайка по id
     changeLikeStatus(postId, isLike){
         return fetch(`${this._baseUrl}/posts/likes/${postId}`, {
@@ -68,7 +93,9 @@ class Api {
             },
             body: JSON.stringify(bodyData)
         }).then(onResponce)
-    }   
+    }  
+    
+    
 }
 
 const config = {

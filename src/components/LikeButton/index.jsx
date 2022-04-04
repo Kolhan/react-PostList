@@ -5,7 +5,7 @@ import {ReactComponent as LikeIcon} from './img/like.svg'
 import { CurrentUserContext } from './../../context/currentUserContext';
 
 export const LikeButton = ({likeList, postId, onPostLike}) => {
-    const user = useContext(CurrentUserContext)
+    const {user} = useContext(CurrentUserContext)
 
     function handleLikeClick() {
       onPostLike({postId, likeList})

@@ -17,7 +17,7 @@ export const Header = ({children, arrBtn}) => {
               <div className='row_jc_between'>
                     <Logo>Реактивные посты</Logo>
                     <KBreadcrumb separator="  " arrBtn={arrBtn}/>
-                    <CurrentUser user={user}/>
+                    <CurrentUser/>
               </div>
           </Container>
         </header>
