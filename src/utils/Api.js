@@ -95,6 +95,18 @@ class Api {
         }).then(onResponce)
     }  
     
+    // изменение поста
+    editPost(postId, bodyData) {
+        return fetch(`${this._baseUrl}/posts/${postId}`, {
+            method: "PATCH",
+            headers: {
+                authorization: this._token,
+                "Content-type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify(bodyData)
+        }).then(onResponce)
+    } 
     
 }
 

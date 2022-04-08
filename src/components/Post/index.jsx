@@ -1,11 +1,10 @@
 import React, { useContext } from "react";
-import cn from "classnames";
 import s from "./styles.module.css";
 import dayjs from "dayjs";
 import 'dayjs/locale/ru';
 import { LikeButton } from "../LikeButton";
 import { DeletePostButton } from "../DeletePostButton";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { PostAuthor } from "../PostAuthor";
 import { Tag } from "antd";
 import { CurrentUserContext } from './../../context/currentUserContext';
