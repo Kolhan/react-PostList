@@ -1,13 +1,12 @@
 const path = require('path');//для того чтобы превратить отнсительный путь в абсолютный мы будем использовать пакет path
 const HTMLWebpackPlugins = require('html-webpack-plugin');
-const ASSET_PATH = process.env.ASSET_PATH || '/';
 
 module.exports = {
 	entry: path.resolve(__dirname, 'src/index.js'),//точка входа в наше приложение содержит абсолютный путь к index.js
 	output: {
 		path: path.resolve(__dirname, 'dist'),//путь куда будет собираться наш проект
 		filename: "main.js", // имя нашего бандла
-		publicPath: ASSET_PATH
+		publicPath: '/react-PostList/dist/'
 	},
 	devServer: {
 		historyApiFallback: true, //включает роутинг
