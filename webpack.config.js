@@ -6,7 +6,7 @@ module.exports = {
 	output: {
 		path: path.resolve(__dirname, 'dist'),//путь куда будет собираться наш проект
 		filename: "main.js", // имя нашего бандла
-		publicPath: "/"
+		publicPath: path.resolve(__dirname, "./dist")
 	},
 	devServer: {
 		historyApiFallback: true, //включает роутинг
@@ -62,8 +62,8 @@ module.exports = {
 	},
 	plugins: [
 		new HTMLWebpackPlugins({
-			template: path.resolve(__dirname, 'src/public/index.html'),
-      		favicon: "src/assets/favicon.svg",
+			template: path.resolve(__dirname, './src/public/index.html'),
+      		favicon: "./src/assets/favicon.svg",
 		})
 	],
 	infrastructureLogging: {
