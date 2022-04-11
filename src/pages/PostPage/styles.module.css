@@ -1,6 +1,6 @@
 .postPage__cardRow {
     display: grid;
-    grid-template-columns: minmax(400px, 600px) 1fr;
+    grid-template-columns: minmax(400px, 600px) minmax(200px, 350px);;
     gap: 5px;
     overflow: hidden;
 }

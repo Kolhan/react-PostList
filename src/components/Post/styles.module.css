@@ -1,3 +1,11 @@
 .cardPost {
     width: 200px;
 }
+
+.card-content {
+    overflow: hidden;
+}
+
+.cardContent {
+    overflow: hidden;
+}

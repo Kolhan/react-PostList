@@ -13,6 +13,7 @@ import { PostListContext } from './../../context/postListContext';
 import { EditPostButton } from '../../components/EditPostButton';
 import Input from 'antd/lib/input/Input';
 import TextArea from 'antd/lib/input/TextArea';
+import { Comment } from './../../components/Comment';
 
 export const PostPage = ({}) => {
     const params = useParams();
@@ -117,11 +118,8 @@ export const PostPage = ({}) => {
                                     <h3><b>{post.title}</b></h3>
                                     <p className="mb-5">{post.text}</p>
 
-                                    <h3> Комментарии: </h3>
-                                    {post && post.comments && post.comments.length>0 && post.comments.map((comment, index) => 
-                                        <div key={index}>
-                                            {comment}
-                                        </div> 
+                                    {post?.comments?.length>0 && post.comments.map((comment) =>
+                                        <Comment comment={comment} key={comment._id}/>
                                     )}
                                 </> 
                             }

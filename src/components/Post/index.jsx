@@ -9,6 +9,7 @@ import { PostAuthor } from "../PostAuthor";
 import { Tag } from "antd";
 import { CurrentUserContext } from './../../context/currentUserContext';
 import { CommentOutlined } from "@ant-design/icons";
+import cn from "classnames";
 
 
 dayjs.locale('ru')
@@ -25,7 +26,7 @@ export const Post = ({ onPostLike, onDeletePost, image, title, author, text, cre
       <div className="card-header">
           <PostAuthor userName={author.name} subTitle={author.about} srcAvatar={author.avatar}/>
       </div>
-      <div className="card-content curPointer" onClick={() => navigate(`/post/${_id}`, { replace: false })}>
+      <div className={cn(s.cardContent, 'curPointer')} onClick={() => navigate(`/post/${_id}`, { replace: false })}>
           <img alt="example" src={image} className="mb-3" />
           <div className="card-body">
             <h5><b>{title}</b></h5>

@@ -77,7 +77,7 @@ export const PostListPage = ({isLoading, postsData, handlePostLike, handleDelete
 
                     <h1> Добро пожаловать на мою страничку</h1>
 
-                    <Alert message="Не знаю почему, перестало открываться на githubPages: https://kolhan.github.io/react-PostList/dist/ помогите разобраться" type="error" className='mb-3'/>
+                    {/* <Alert message="Не знаю почему, перестало открываться на githubPages: https://kolhan.github.io/react-PostList/dist/ помогите разобраться" type="error" className='mb-3'/> */}
 
                     <div className='row_jc_between'>
                         Здесь вы можете реактивно развлекаться

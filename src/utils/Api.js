@@ -27,6 +27,14 @@ class Api {
         }).then(onResponce)
     }
 
+    // получение информации о пользователе по ID
+    getAuthorInfo(userId){
+        return fetch(`${this._baseUrl}/users/${userId}`, {
+            headers: {
+                authorization: this._token,
+            },
+        }).then(onResponce)
+    }
 
     // изменение name и about
     setUserInfo(bodyData) {

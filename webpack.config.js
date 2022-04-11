@@ -6,7 +6,8 @@ module.exports = {
 	output: {
 		path: path.resolve(__dirname, 'dist'),//путь куда будет собираться наш проект
 		filename: "main.js", // имя нашего бандла
-		publicPath: '/react-PostList/dist/'
+		// publicPath: '/react-PostList/dist/'
+		publicPath: '/'
 	},
 	devServer: {
 		historyApiFallback: true, //включает роутинг
