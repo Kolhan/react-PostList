@@ -30,7 +30,7 @@ export const Post = ({ onPostLike, onDeletePost, image, title, author, text, cre
           <img alt="example" src={image} className="mb-3" />
           <div className="card-body">
             <h5><b>{title}</b></h5>
-            <p className="mb-1">{text}</p>
+            <p className="mb-1">{text.length>=150?text.slice(0,150) + '...':text}</p>
 
             {tags && <div className='mb-2'>
                 {tags.length>0 && tags.map((tag, index) => 
