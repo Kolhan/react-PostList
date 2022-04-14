@@ -105,7 +105,7 @@ export const PostPage = ({}) => {
                                         {post?.likes && <LikeButton likeList={post.likes} postId={post._id} onPostLike={handlePostLike}/>}
                                         {post?.tags && <div>
                                             {post?.tags?.length>0 && post?.tags?.map((tag, index) => 
-                                                <Tag color="#87d068" key={index}>{tag}</Tag>
+                                                tag != "" && tag != " " && <Tag color="#87d068" key={index}>{tag}</Tag>
                                             )}
                                         </div>}
                                     </>

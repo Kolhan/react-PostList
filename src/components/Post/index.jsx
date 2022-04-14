@@ -34,7 +34,7 @@ export const Post = ({ onPostLike, onDeletePost, image, title, author, text, cre
 
             {tags && <div className='mb-2'>
                 {tags.length>0 && tags.map((tag, index) => 
-                    <Tag color="#87d068" key={index}>{tag}</Tag>
+                    tag != "" && tag != " " && <Tag color="#87d068" key={index}>{tag}</Tag>
                 )}
             </div>}
           </div>
