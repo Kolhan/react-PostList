@@ -30,6 +30,7 @@ body {
 
 img {
     max-width: 100%;
+    width: 1000px;
 }
 
 .row_jc_between {
