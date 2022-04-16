@@ -27,7 +27,11 @@ export const Post = ({ onPostLike, onDeletePost, image, title, author, text, cre
           <PostAuthor userName={author.name} subTitle={author.about} srcAvatar={author.avatar}/>
       </div>
       <div className={cn(s.cardContent, 'curPointer')} onClick={() => navigate(`/post/${_id}`, { replace: false })}>
-          <img alt="example" src={image} className="mb-3" />
+          <img alt="example" src={image} className="mb-3"  
+            onError={({ currentTarget }) => {
+              currentTarget.onerror = null; // prevents looping
+              currentTarget.src="https://b-n-c.ru/local/templates/.default/img/no-img.jpg";
+            }}/>
           <div className="card-body">
             <h5><b>{title}</b></h5>
             <p className="mb-1">{text.length>=150?text.slice(0,150) + '...':text}</p>

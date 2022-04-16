@@ -2,10 +2,8 @@
     width: 200px;
 }
 
-.card-content {
-    overflow: hidden;
-}
-
 .cardContent {
     overflow: hidden;
+    width: 1000px;
+    max-width: 100%;
 }

@@ -91,7 +91,11 @@ export const PostPage = ({}) => {
                     <div className={s.postPage__cardRow}>
                         <div>
                             {isEditMode && <Input value={post.image} onInput={(e)=>{setPost({...post, image:e.target.value})}}/> } 
-                            <img width="100%" alt="example" src={post.image} />
+                            <img width="100%" alt="example" src={post.image} 
+                                onError={({ currentTarget }) => {
+                                    currentTarget.onerror = null; // prevents looping
+                                    currentTarget.src="https://b-n-c.ru/local/templates/.default/img/no-img.jpg";
+                            }}/>
                         </div>
 
                         <div className={cn(s.postPage__cardRow_body)}>
