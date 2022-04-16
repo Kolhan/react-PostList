@@ -61,7 +61,10 @@ export function PostEditForm({isVisible, onOk, onCancel, newPost, setNewPost}) {
                           })
                         } 
                     />
-                    <img src={newPost.image} className="mb-2" width="100%"/>
+                    <img src={newPost.image} className="mb-2" width="100%" onError={({ currentTarget }) => {
+                                    currentTarget.onerror = null; // prevents looping
+                                    currentTarget.src="https://b-n-c.ru/local/templates/.default/img/no-img.jpg";
+                            }}/>
 
                     {errors?.title && <div>{errors.title.message}</div>}
                     <Input placeholder='Заголовок поста' className="mb-2" type="text" value={newPost.title} onInput={handleOnChangeInput}
